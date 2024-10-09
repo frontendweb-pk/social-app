@@ -9,9 +9,9 @@ let catche = global.mongoose;
 if (!catche) {
   catche = global.mongoose = { conn: null };
 }
-
+console.log("Db", MONGODB_URI);
 export const connectDb = async () => {
-  console.log("Db");
+  console.log("Db", MONGODB_URI);
   if (catche.conn) {
     console.log("Database connected from catche!");
     return catche.conn;
