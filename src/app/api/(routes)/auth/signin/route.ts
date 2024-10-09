@@ -1,11 +1,11 @@
 import { regex } from "@/utils/regex";
 import { z } from "zod";
-import { errorHandler } from "../../utils/error-handler";
-import { CustomError } from "../../errors/custom-error";
-import { IUserDoc, User } from "../../models/user";
-import { AuthError, NotFoundError } from "../../errors";
-import { Password } from "../../utils/password";
-import { Jwt } from "../../utils/jwt";
+import { errorHandler } from "../../../utils/error-handler";
+import { CustomError } from "../../../errors/custom-error";
+import { IUserDoc, User } from "../../../models/user";
+import { AuthError, NotFoundError } from "../../../errors";
+import { Password } from "../../../utils/password";
+import { Jwt } from "../../../utils/jwt";
 import { connectDb } from "@/lib/db";
 
 const Schema = z.object({

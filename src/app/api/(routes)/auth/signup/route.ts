@@ -1,9 +1,9 @@
 import { z } from "zod";
-import { User } from "../../models/user";
-import { BadRequestError } from "../../errors";
-import { CustomError } from "../../errors/custom-error";
+import { User } from "../../../models/user";
+import { BadRequestError } from "../../../errors";
+import { CustomError } from "../../../errors/custom-error";
 import { connectDb } from "@/lib/db";
-import { errorHandler } from "../../utils/error-handler";
+import { errorHandler } from "../../../utils/error-handler";
 
 // Schema
 const SignupSchema = z.object({
