@@ -6,6 +6,7 @@ import { IUserDoc, User } from "../../models/user";
 import { AuthError, NotFoundError } from "../../errors";
 import { Password } from "../../utils/password";
 import { Jwt } from "../../utils/jwt";
+import { connectDb } from "@/lib/db";
 
 const Schema = z.object({
   email: z.string().email("Invalid email!"),
@@ -13,6 +14,9 @@ const Schema = z.object({
 });
 
 export async function POST(req: Request) {
+  // database connection
+  await connectDb();
+
   const body = await req.json();
 
   try {
