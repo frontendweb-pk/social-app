@@ -1,6 +1,3 @@
-import { NextRequest } from "next/server";
-import { connectDb } from "./lib/db";
-
-export async function middleware(req: NextRequest) {
+export async function middleware() {
   console.log("Hi, i am middleware");
 }

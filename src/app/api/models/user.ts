@@ -34,7 +34,6 @@ const schema = new Schema(
     toJSON: {
       virtuals: true,
       versionKey: false,
-      transform(doc, ret) {},
     },
   }
 );
@@ -44,9 +43,12 @@ schema.pre("save", function cb(done) {
   if (this.isModified("password")) {
     this.set("password", Password.hash(pwd));
   }
-  this.get("role") === "admin" ? this.set("verifyEmail", true) : null;
+  if (this.get("role") === "admin") {
+    this.set("verifyEmail", true);
+  }
+
   done();
 });
 
 export const User =
-  mongoose.models["User"] || mongoose.model<IUserDoc>(USER_TABLE, schema);
+  mongoose.models[USER_TABLE] || mongoose.model<IUserDoc>(USER_TABLE, schema);
