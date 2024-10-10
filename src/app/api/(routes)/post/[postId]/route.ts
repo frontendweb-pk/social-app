@@ -4,7 +4,9 @@ import { errorHandler } from "@/app/api/utils/error-handler";
 import { connectDb } from "@/lib/db";
 
 interface Params {
-  postId: string;
+  params: {
+    postId: string;
+  };
 }
 
 /**
@@ -14,11 +16,12 @@ interface Params {
  * @param param1
  * @returns
  */
-export async function GET(req: Request, params: Params) {
+export async function GET(req: Request, { params }: Params) {
   await connectDb();
   try {
-    const post = await Post.findById(params.postId);
-
+    console.log(params.postId);
+    const post = await Post.findOne({ _id: params.postId });
+    console.log(post);
     return Response.json(post, { status: 200 });
   } catch (error) {
     return errorHandler(error as CustomError);
