@@ -1,50 +1,13 @@
 import mongoose, { Schema, Document } from "mongoose";
 import { USER_TABLE } from "./user";
+import { IPost } from "@/types/index";
+import { PostStatus, Status } from "@/types/enums";
 
 export const POST_TABLE = "Post";
-export interface ILike {
-  user: string;
-  active: boolean;
-}
-export enum Status {
-  Approved = "approved",
-  Rejected = "rejected",
-  Pending = "pending",
-}
-export enum PostStatus {
-  Public = "public",
-  Private = "private",
-  Friends = "friends",
-}
 
-export interface IComment {
-  _id?: string;
-  user: Schema.Types.ObjectId;
-  message: string;
-  status: Status;
-  createdAt?: Date;
-  images?: string[];
-}
-export interface Friends {
-  user: Schema.Types.ObjectId;
-  status: Status;
-  createdAt?: Date;
-}
-export interface IPost {
-  user: string;
-  content: string;
-  images: Media[];
-  code?: string;
-  videoUrl?: Media;
-  active: boolean;
-  comments: IComment[];
-  likes: ILike[];
-  tags: string[];
-  status: string;
-  friendRequests: Friends[];
-  postStatus: string;
-}
-export interface IPostDoc extends Document<IPost>, IPost {}
+export interface IPostDoc
+  extends Document<Omit<IPost, "id">>,
+    Omit<IPost, "id"> {}
 
 const schema = new Schema(
   {
