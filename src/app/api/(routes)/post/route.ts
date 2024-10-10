@@ -1,24 +1,12 @@
-import { z } from "zod";
 import { CustomError } from "../../errors/custom-error";
 import { errorHandler } from "../../utils/error-handler";
 
 import { connectDb } from "@/lib/db";
 import { Post } from "../../models/post";
+import { z } from "zod";
+import { BadRequestError } from "../../errors";
 
-export const Media = z
-  .object({
-    public_id: z.string().optional(),
-    url: z.string().optional(),
-    resource_type: z.string().optional(),
-    access_mode: z.string().optional(),
-    folder: z.string().optional(),
-    version: z.string().optional(),
-    signature: z.string().optional(),
-  })
-  .nullable()
-  .default(null);
-
-export const PostSchema = z.object({
+const PostSchema = z.object({
   user: z.string().min(1, { message: "User is required!" }),
   content: z.string().default(""),
   code: z.string().nullable().default(null),
@@ -35,7 +23,18 @@ export const PostSchema = z.object({
       })
     )
     .default([]),
-  videoUrl: Media,
+  videoUrl: z
+    .object({
+      public_id: z.string().optional(),
+      url: z.string().optional(),
+      resource_type: z.string().optional(),
+      access_mode: z.string().optional(),
+      folder: z.string().optional(),
+      version: z.string().optional(),
+      signature: z.string().optional(),
+    })
+    .nullable()
+    .default(null),
   active: z.boolean().default(true),
   tags: z.string().array().default([]),
   status: z.string().default("approved"),
@@ -90,7 +89,10 @@ export async function POST(req: Request) {
   await connectDb();
   const body = await req.json();
   try {
-    PostSchema.parse(body);
+    const validate = PostSchema.safeParse(body);
+    if (!validate.success) {
+      throw new BadRequestError("Validation failed!");
+    }
     const post = new Post(body);
     const result = await post.save();
     return Response.json(result, { status: 201 });
