@@ -1,7 +1,5 @@
 "use server";
 
-import { IPost } from "@/types/index";
-
 /**
  * Fetch all posts
  * @returns
@@ -9,7 +7,8 @@ import { IPost } from "@/types/index";
 export async function getPosts() {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/post`);
 
-  const data: IPost[] = await res.json();
+  if (res.status !== 200) throw new Error("Fetch error!");
+  const data = await res.json();
 
   console.log("data-aaa", data);
 
