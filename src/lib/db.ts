@@ -9,6 +9,7 @@ let catche = global.mongoose;
 if (!catche) {
   catche = global.mongoose = { conn: null };
 }
+
 export const connectDb = async () => {
   if (catche.conn) {
     console.log("Database connected from catche!");
