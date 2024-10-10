@@ -12,6 +12,7 @@ export function errorHandler(error: CustomError | ZodError) {
       { error: zodValidationFormat(error) },
       { status: 422 }
     );
+
   if (error instanceof MongooseError) {
     error = new DatabaseConnectionError(error.message);
   }
