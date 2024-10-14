@@ -3,6 +3,7 @@ import Header from "@/components/layout/Header";
 
 import "./global.css";
 import { roboto } from "@/lib/font";
+import { ToastContainer } from "react-toastify";
 
 export const metadata = {
   title: "Social App",
@@ -17,6 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={roboto.className}>
+        <ToastContainer />
         <Header />
         {children}
         <Footer />

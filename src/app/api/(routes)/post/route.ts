@@ -3,8 +3,8 @@ import { errorHandler } from "../../utils/error-handler";
 
 import { connectDb } from "@/lib/db";
 import { Post } from "../../models/post";
-import { BadRequestError } from "../../errors";
 import { PostSchema } from "../../utils/schema";
+import { BadRequestError } from "../../errors";
 
 /**
  * Post handler
