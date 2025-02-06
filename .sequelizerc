@@ -1,0 +1,10 @@
+const path = require("path");
+
+module.exports = {
+    env: process.env.NODE_ENV,
+    debug: process.env.NODE_ENV === "development",
+    config: path.resolve("database", "config/config.mjs"),
+    "migrations-path": path.resolve("database", "migrations"),
+    "seeders-path": path.resolve("database", "seeders"),
+    "models-path": path.resolve("database", "models")
+}
