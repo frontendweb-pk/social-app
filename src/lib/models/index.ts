@@ -9,6 +9,7 @@ Role.hasMany(User, {
 });
 
 User.belongsTo(Role, {
+  as: "role",
   foreignKey: "role_id",
   onDelete: "CASCADE",
   onUpdate: "CASCADE",
@@ -21,6 +22,7 @@ User.hasMany(Post, {
 });
 
 Post.belongsTo(User, {
+  as: "user",
   foreignKey: "user_id",
   onDelete: "CASCADE",
   onUpdate: "CASCADE",

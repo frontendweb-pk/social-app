@@ -1,6 +1,7 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../db";
 import { Password } from "../password";
+import { Role } from "./role";
 
 const indiaMobileRegex = /^(?:\+91|91)?[789]\d{9}$/;
 const passwordRegex =
@@ -20,6 +21,7 @@ export class User extends Model {
   public declare email_verified: boolean;
   public declare created_at: Date;
   public declare updated_at: Date;
+  public declare readonly role: Role;
 }
 
 User.init(
