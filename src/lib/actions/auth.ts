@@ -5,6 +5,7 @@ import { z } from "zod";
 import { User } from "../models";
 import { AuthError } from "next-auth";
 import { ValidationError } from "sequelize";
+import { sleep } from "../helpers";
 
 const loginSchema = z.object({
   email: z.string().email(),
@@ -27,18 +28,17 @@ export async function login(formState: FormState<User>, formData: FormData) {
     };
   }
 
+  await sleep(3000);
+
   try {
     await signIn("credentials", {
       ...parsed.data,
-      redirect: false,
+
       redirectTo: "/user/dashboard",
     });
 
     // Success handling
-    return {
-      message: "Login successful",
-      status: "success",
-    };
+    return { message: "Login successful", status: "success" };
   } catch (error) {
     let errorMessage = "Something went wrong";
 
@@ -68,7 +68,8 @@ const signupSchema = z.object({
   last_name: z.string().nonempty("Last name is required"),
   email: z.string().email("Invalid email address"),
   password: z.string().min(8, "Password must be at least 8 characters"),
-  mobile: z.string().min(11, "Mobile number must be at least 11 characters"),
+  mobile: z.string().min(10, "Mobile number must be at least 10 characters"),
+  role_id: z.number().int().default(2),
 });
 
 export async function signup(formState: FormState<User>, formData: FormData) {
@@ -104,11 +105,10 @@ export async function signup(formState: FormState<User>, formData: FormData) {
       };
     }
 
-    const newUser = await User.create(parsed.data);
+    await User.create(parsed.data);
     return {
       status: "success",
       message: "User created successfully",
-      data: newUser,
     };
   } catch (error) {
     let errorMessage = "Something went wrong";

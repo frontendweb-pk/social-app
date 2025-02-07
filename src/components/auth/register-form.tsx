@@ -2,12 +2,12 @@
 
 import { signup } from "@/lib/actions/auth";
 import Form from "next/form";
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 import Input from "../ui/input";
 
-import AuthTitle from "./auth-title";
 import SubmitButton from "../ui/submit-button";
 import ErrorMessages from "../ui/error";
+import { toast } from "react-toastify";
 
 export default function RegisterForm() {
   const [state, formAction, isPending] = useActionState(signup, {
@@ -15,8 +15,25 @@ export default function RegisterForm() {
     status: "idle",
   });
 
+  useEffect(() => {
+    if (state.status === "success") {
+      toast.success("User registered successfully");
+    }
+
+    if (state.status === "error") {
+      toast.error(state.message);
+    }
+  }, [state]);
+
+  console.log(state, "state");
+
   return (
     <>
+      {isPending && (
+        <div className="text-white p--2 rounded-md mb-4">
+          Wait registering...
+        </div>
+      )}
       <Form action={formAction} noValidate className="space-y-4">
         <div className="grid grid-cols-2 gap-2">
           <Input
