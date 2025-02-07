@@ -18,7 +18,6 @@ export async function POST(req: Request) {
 
     // Parse request body
     const parse = loginSchema.safeParse({ email, password });
-
     if (!parse.success) {
       throw new ValidationError(parse.error.errors);
     }
@@ -50,21 +49,19 @@ export async function POST(req: Request) {
     user.access_token = token;
     await user.save({ fields: ["access_token"] });
 
-    console.log("User", user);
     return NextResponse.json({
-      user: {
-        user_id: user.user_id,
-        first_name: user.first_name,
-        last_name: user.last_name,
-        email: user.email,
-        mobile: user.mobile,
-        avatar: user.avatar,
-        active: user.active,
-        email_verified: user.email_verified,
-        access_token: user.access_token,
-        role_id: user.role_id,
-        role_name: user.role.dataValues.role_name,
-      },
+      expireIn: 60 * 5,
+      user_id: user.user_id,
+      first_name: user.first_name,
+      last_name: user.last_name,
+      email: user.email,
+      mobile: user.mobile,
+      avatar: user.avatar,
+      active: user.active,
+      email_verified: user.email_verified,
+      access_token: user.access_token,
+      role_id: user.role_id,
+      role_name: user.role.dataValues.role_name,
     });
   } catch (error) {
     return errorHandler(error as Error);
