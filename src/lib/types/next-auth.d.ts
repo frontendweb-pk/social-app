@@ -1,14 +1,29 @@
+// The `JWT` interface can be found in the `next-auth/jwt` submodule
+import { User } from "next-auth";
+import { AdapterUser } from "next-auth/adapters";
+interface UserAttributes {
+  user_id: number;
+  first_name: string;
+  last_name: string;
+  email: string;
+  password: string;
+  mobile: string;
+  role_id: number;
+  role_name?: string;
+  avatar?: object;
+  active?: boolean;
+  access_token?: string;
+  email_verified?: boolean;
+  created_at?: Date;
+  updated_at?: Date;
+  expireIn?: number;
+}
 declare module "next-auth" {
   /**
    * The shape of the user object returned in the OAuth providers' `profile` callback,
    * or the second parameter of the `session` callback, when using a database.
    */
   interface User extends UserAttributes {}
-  /**
-   * The shape of the account object returned in the OAuth providers' `account` callback,
-   * Usually contains information about the provider being used, like OAuth tokens (`access_token`, etc).
-   */
-  interface Account {}
 
   /**
    * Returned by `useSession`, `auth`, contains information about the active session.
@@ -17,11 +32,6 @@ declare module "next-auth" {
     user?: User;
   }
 }
-
-// The `JWT` interface can be found in the `next-auth/jwt` submodule
-import { JWT } from "next-auth/jwt";
-import { AdapterUser } from "next-auth/adapters";
-import { Role } from "../models";
 
 declare module "next-auth/jwt" {
   /** Returned by the `jwt` callback and `auth`, when using JWT sessions */

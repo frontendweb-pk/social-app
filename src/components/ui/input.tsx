@@ -16,6 +16,7 @@ export default function Input({
 }: InputProps) {
   return (
     <div>
+      {label && <label className="text-white text-sm">{label}</label>}
       <div
         className={clsx("rounded-md shadow-sm border text-md", {
           "border-white text-white placeholder:text-red-50  hover:bg-white hover:text-indigo-900":
@@ -25,10 +26,14 @@ export default function Input({
         })}
       >
         <input
-          className={clsx("bg-transparent  outline-none p-2 w-full", {
-            " placeholder:text-white hover:placeholder:text-indigo-200": dark,
-            "placeholder:text-red-600": error,
-          })}
+          className={clsx(
+            "bg-transparent  outline-none p-2 w-full",
+            {
+              " placeholder:text-white hover:placeholder:text-indigo-200": dark,
+              "placeholder:text-red-600": error,
+            },
+            className
+          )}
           type={type}
           placeholder={placeholder}
           {...rest}

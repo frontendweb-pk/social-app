@@ -1,4 +1,5 @@
-import type { NextAuthConfig } from "next-auth";
+import type { NextAuthConfig, User } from "next-auth";
+import { AdapterUser } from "next-auth/adapters";
 
 /**
  * next authentication configuration
@@ -23,7 +24,6 @@ export const config: Omit<NextAuthConfig, "providers"> = {
   session: { strategy: "jwt" },
   callbacks: {
     async jwt({ token, user }) {
-      console.log("jwt", this, token, user);
       if (user) {
         token.user = user;
         token.exp = Date.now() + user.expireIn!; // 60 seconds
@@ -31,9 +31,8 @@ export const config: Omit<NextAuthConfig, "providers"> = {
       return token;
     },
     async session({ session, token }) {
-      console.log("session", this, session, token);
       if (session.user) {
-        session.user = token.user;
+        session.user = token.user as AdapterUser & User;
       }
       console.log("RUNNING SESSION CALLBACK", token, session.expires);
       return session;

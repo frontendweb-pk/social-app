@@ -1,12 +1,10 @@
 import clsx from "clsx";
 
 export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
-  label?: string;
   dark?: boolean;
   fullWidth?: boolean;
 };
 export default function Button({
-  label,
   className,
   type = "button",
   dark,
